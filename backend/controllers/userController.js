@@ -1,5 +1,10 @@
 import bcrypt from "bcryptjs";
-import { formatBody, generateToken, logger } from "../utils/helpers.js";
+import {
+  formatBody,
+  generateToken,
+  logger,
+  MAX_AGE,
+} from "../utils/helpers.js";
 import { errorResponse, successResponse } from "../utils/response.js";
 import User from "../models/user.js";
 
@@ -26,10 +31,14 @@ export const registerUser = async (req, res) => {
       throw new Error("User not registered");
     }
 
-    successResponse({ data: user, res });
+    const token = generateToken(user);
+    res.cookie("jwt", token, { httpOnly: true, maxAge: MAX_AGE });
+
+    const returnUser = { id: user._id, name: user.name, email: user.email };
+    successResponse({ data: returnUser, res });
   } catch (error) {
     logger.error(error);
-    errorResponse({ code: 400, error, res });
+    errorResponse({ code: 404, error, res });
   }
 };
 
@@ -51,9 +60,22 @@ export const loginUser = async (req, res) => {
     if (!isMatch) {
       throw new Error("Invalid credentials");
     }
-    const token = generateToken(user);
 
-    successResponse({ data: token, res });
+    const token = generateToken(user);
+    res.cookie("jwt", token, { httpOnly: true, maxAge: MAX_AGE });
+
+    const returnUser = { id: user._id, name: user.name, email: user.email };
+    successResponse({ data: returnUser, res });
+  } catch (error) {
+    logger.error(error);
+    errorResponse({ code: 404, error, res });
+  }
+};
+
+export const logoutUser = async (req, res) => {
+  try {
+    res.cookie("jwt", "", { maxAge: 0 });
+    successResponse({ data: "Logged out", res });
   } catch (error) {
     logger.error(error);
     errorResponse({ code: 400, error, res });

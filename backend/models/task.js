@@ -7,7 +7,6 @@ const taskSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    category: { type: String, required: true },
     description: { type: String, required: true },
     priority: { type: Number, required: true, min: 1, max: 3 },
     completed: { type: Boolean, required: true },

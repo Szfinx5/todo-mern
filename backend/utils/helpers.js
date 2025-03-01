@@ -1,6 +1,8 @@
 import bunyan from "bunyan";
 import jwt from "jsonwebtoken";
 
+export const MAX_AGE = 60 * 60 * 1000; // 1 hour
+
 export const isEmpty = (objectName) => {
   return (
     objectName &&
@@ -23,7 +25,7 @@ export const generateToken = (user) => {
     { userId: user._id, name: user.name },
     process.env.JWT_SECRET,
     {
-      expiresIn: "1h",
+      expiresIn: MAX_AGE,
     }
   );
 };

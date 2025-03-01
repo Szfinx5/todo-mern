@@ -1,14 +1,23 @@
 import express from "express";
+import cors from "cors";
+import cookieParser from "cookie-parser";
 import taskRouter from "./routes/taskRoutes.js";
 import userRouter from "./routes/userRoutes.js";
 import { connectDB } from "./utils/config.js";
 
 connectDB();
 
-const app = express();
-app.use(express.json());
-
 const PORT = process.env.PORT || 5000;
+const corsOptions = {
+  origin: "*",
+  credentials: true,
+  optionSuccessStatus: 200,
+};
+
+const app = express();
+app.use(cookieParser());
+app.use(express.json());
+app.use(cors(corsOptions));
 
 app.use("/api/task", taskRouter);
 app.use("/api/user", userRouter);
