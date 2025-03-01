@@ -1,3 +1,4 @@
+/* Defining standard responses to avoid repeating the same code and make it more maintainable */
 export const successResponse = ({ data, code = 200, res }) => {
   res.status(code).json({ message: data });
 };

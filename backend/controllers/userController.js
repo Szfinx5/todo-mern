@@ -1,9 +1,9 @@
-import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { formatBody, generateToken, logger } from "../utils/helpers.js";
 import { errorResponse, successResponse } from "../utils/response.js";
 import User from "../models/user.js";
 
+/* Registering a new user */
 export const registerUser = async (req, res) => {
   try {
     const { email, password, name } = formatBody(req.body);
@@ -33,6 +33,7 @@ export const registerUser = async (req, res) => {
   }
 };
 
+/* Logging in an existing user */
 export const loginUser = async (req, res) => {
   try {
     const { email, password } = formatBody(req.body);
@@ -59,6 +60,7 @@ export const loginUser = async (req, res) => {
   }
 };
 
+/* Verifying the logged in user */
 export const verifyUser = async (req, res) => {
   try {
     const { _id, name, email } = await User.findById(req.userId);

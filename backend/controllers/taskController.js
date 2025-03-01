@@ -2,12 +2,13 @@ import { isEmpty, logger } from "../utils/helpers.js";
 import { errorResponse, successResponse } from "../utils/response.js";
 import Task from "../models/task.js";
 
+/* Fetching all the tasks belongs to the logged in user */
 export const getTasks = async (req, res) => {
-  console.log(req.userId);
   const tasks = await Task.find({ userId: req.userId });
   successResponse({ data: tasks, res });
 };
 
+/* Adding a new task for the logged in user */
 export const addTask = async (req, res) => {
   try {
     if (isEmpty(req.body)) {
@@ -22,6 +23,7 @@ export const addTask = async (req, res) => {
   }
 };
 
+/* Editing an existing task. Only the logged in user can edit their own task */
 export const editTask = async (req, res) => {
   try {
     if (isEmpty(req.body)) {
@@ -45,6 +47,7 @@ export const editTask = async (req, res) => {
   }
 };
 
+/* Deleting an existing task. Only the logged in user can delete their own task */
 export const deleteTask = async (req, res) => {
   try {
     const { id } = req.params;

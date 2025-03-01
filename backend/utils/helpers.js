@@ -19,7 +19,11 @@ export const formatBody = (body) => {
 };
 
 export const generateToken = (user) => {
-  return jwt.sign({ userId: user._id, name: user.name }, process.env.SECRET, {
-    expiresIn: "1h",
-  });
+  return jwt.sign(
+    { userId: user._id, name: user.name },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: "1h",
+    }
+  );
 };
