@@ -1,4 +1,5 @@
 import bunyan from "bunyan";
+import jwt from "jsonwebtoken";
 
 export const isEmpty = (objectName) => {
   return (
@@ -9,3 +10,16 @@ export const isEmpty = (objectName) => {
 };
 
 export const logger = bunyan.createLogger({ name: "todo-app" });
+
+export const formatBody = (body) => {
+  const email = body?.email?.trim()?.toLowerCase();
+  const password = body?.password?.trim();
+  const name = body?.name?.trim();
+  return { email, password, name };
+};
+
+export const generateToken = (user) => {
+  return jwt.sign({ userId: user._id, name: user.name }, process.env.SECRET, {
+    expiresIn: "1h",
+  });
+};

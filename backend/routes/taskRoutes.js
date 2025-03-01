@@ -5,10 +5,11 @@ import {
   editTask,
   getTasks,
 } from "../controllers/taskController.js";
+import { auth } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.route("/").get(getTasks).post(addTask);
-router.route("/:id").patch(editTask).delete(deleteTask);
+router.route("/").get(auth, getTasks).post(auth, addTask);
+router.route("/:id").patch(auth, editTask).delete(auth, deleteTask);
 
 export default router;

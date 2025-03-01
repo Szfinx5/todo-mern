@@ -3,7 +3,8 @@ import { errorResponse, successResponse } from "../utils/response.js";
 import Task from "../models/task.js";
 
 export const getTasks = async (req, res) => {
-  const tasks = await Task.find();
+  console.log(req.userId);
+  const tasks = await Task.find({ userId: req.userId });
   successResponse({ data: tasks, res });
 };
 
@@ -12,7 +13,7 @@ export const addTask = async (req, res) => {
     if (isEmpty(req.body)) {
       throw new Error("Task details are required");
     }
-    const task = new Task({ ...req.body, userId: "67c2385b815b77f3913f1314" });
+    const task = new Task({ ...req.body, userId: req.userId });
     await task.save();
     successResponse({ data: task, res });
   } catch (error) {
@@ -28,7 +29,7 @@ export const editTask = async (req, res) => {
     }
     const { id } = req.params;
     const task = await Task.findOneAndUpdate(
-      { _id: id, userId: "67c2385b815b77f3913f1314" },
+      { _id: id, userId: req.userId },
       req.body,
       {
         new: true,
@@ -49,7 +50,7 @@ export const deleteTask = async (req, res) => {
     const { id } = req.params;
     const task = await Task.findOneAndDelete({
       _id: id,
-      userId: "67c2385b815b77f3913f1314",
+      userId: req.userId,
     });
     if (!task) {
       throw new Error("Task not found");
