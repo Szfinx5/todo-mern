@@ -1,7 +1,6 @@
 import { useState, useCallback } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import "../styles/globals.css";
 
 const Register = () => {
   const [isLoading, setIsLoading] = useState(false);

@@ -3,7 +3,6 @@ import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import Link from "next/link";
-import "../styles/globals.css";
 import { useVerifyUser } from "@/helpers";
 
 const Login = () => {

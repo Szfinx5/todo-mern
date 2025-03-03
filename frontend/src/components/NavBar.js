@@ -1,5 +1,4 @@
 import Link from "next/link";
-import "../styles/globals.css";
 import axios from "axios";
 import { useCallback } from "react";
 

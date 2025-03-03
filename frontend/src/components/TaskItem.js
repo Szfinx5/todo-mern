@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from "react";
 import moment from "moment";
 import axios from "axios";
-import "../styles/globals.css";
 
 function TaskItem({ task, deleteTask, updateTask }) {
   const [isLoading, setIsLoading] = useState(false);
