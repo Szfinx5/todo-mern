@@ -4,5 +4,5 @@ export const successResponse = ({ data, code = 200, res }) => {
 };
 
 export const errorResponse = ({ error, code = 500, res }) => {
-  res.status(code).json({ message: error.message });
+  res.status(code).json({ error: error.message });
 };
