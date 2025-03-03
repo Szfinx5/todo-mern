@@ -8,12 +8,12 @@ import { useVerifyUser } from "@/helpers";
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const router = useRouter();
 
   useVerifyUser();
-  console.log("isLOading", isLoading);
+
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };

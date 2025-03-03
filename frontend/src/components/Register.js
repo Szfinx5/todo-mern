@@ -3,7 +3,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import "../styles/globals.css";
 
-function Register() {
+const Register = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const router = useRouter();
@@ -113,6 +113,6 @@ function Register() {
       </form>
     </div>
   );
-}
+};
 
 export default Register;

@@ -38,14 +38,13 @@
   padding: 20px;
 }
 
-.profile-image img {
+.tasks-image img {
   width: 200px;
 }
 
 /* Register */
 .register,
-.login,
-.profile {
+.login {
   max-width: 400px;
   margin: 0 auto;
   text-align: center;
@@ -143,23 +142,137 @@ div .error {
   margin-bottom: 30px;
 }
 
-.profile h2 {
-  font-size: 20px;
-  color: var(--primary);
-  margin-top: 30px;
+.tasks {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
 }
 
-.profile button {
+.tasks h2 {
+  font-size: 20px;
+  color: var(--primary);
+}
+
+.tasks button {
   background: var(--primary);
   color: #fff;
   border: 0;
   padding: 8px;
   border-radius: 8px;
   cursor: pointer;
-  margin-top: 30px;
+  margin: 10px auto;
+  font-size: 1.2rem;
 }
 
-.profile p {
-  word-break: break-all;
+.tasks p {
   white-space: normal;
+  margin: 10px auto;
+}
+
+.addNewForm {
+  width: 100%;
+  display: flex;
+  gap: 1rem;
+  input {
+    width: 100%;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    color: black;
+    padding: 1rem;
+    background-color: #bbbbbb;
+  }
+  button[type="submit"] {
+    /* background-color: #bbbbbb; */
+    padding: 0.5rem 2rem;
+    font-size: 1.2rem;
+    border: none;
+    /* color: black; */
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s ease background-color, 0.3s ease color;
+    &:hover {
+      background-color: #156542;
+      color: rgb(205, 205, 205);
+    }
+  }
+}
+.taskList_table {
+  width: 100%;
+  margin-top: 2rem;
+}
+
+.task_item {
+  background-color: rgba(128, 128, 128, 0.174);
+  margin-top: 0.5rem;
+  border-radius: 6px;
+  font-size: 1.2rem;
+  &:hover {
+    background-color: rgba(95, 95, 95, 0.2);
+  }
+  td {
+    padding: 0.3rem;
+    vertical-align: middle;
+  }
+  td:last-child {
+    text-align: center;
+    vertical-align: middle;
+  }
+}
+
+.task_item_checkbox {
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: 0.3s ease background-color;
+  cursor: pointer;
+  & input {
+    width: 1.7rem;
+    height: 1.7rem;
+    cursor: pointer;
+  }
+  &:hover {
+    background-color: rgba(128, 128, 128, 0.2);
+  }
+}
+
+.task_name {
+  max-width: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  p {
+    width: calc(100% - 3rem);
+  }
+}
+
+.deleteBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  border: 1px solid crimson;
+  padding: 0.5rem 1.5rem;
+  font-size: 1.2rem;
+  color: crimson;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: 0.3s ease background-color, 0.3s ease color;
+  &:hover {
+    background-color: rgb(142, 13, 39);
+    color: rgb(205, 205, 205);
+  }
+}
+
+.filters {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1.5rem;
+  margin: 1rem 0;
+  font-size: 1.1rem;
 }

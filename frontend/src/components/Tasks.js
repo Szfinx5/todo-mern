@@ -1,30 +1,225 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
+import TaskItem from "./TaskItem";
+
 const Tasks = () => {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [taskList, setTaskList] = useState([]);
+  const [isAddingNew, setIsAddingNew] = useState(false);
+  const [showCompleted, setShowCompleted] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortOption, setSortOption] = useState("priorityDesc");
+  const [error, setError] = useState(null);
+  const [newTask, setNewTask] = useState({
+    category: "",
+    description: "",
+    priority: 3,
+  });
+  const { category, description, priority } = newTask;
+
   useEffect(() => {
-    const fetchUser = async () => {
-      setIsLoading(true);
+    if (!router.isReady) return;
+
+    const fetchTasks = async () => {
       try {
-        const response = await axios.get(
+        const { data } = await axios.get(
           `${process.env.NEXT_PUBLIC_API_URL}/task`,
           { withCredentials: true }
         );
-        setIsLoading(false);
+
+        setTaskList(
+          data?.message?.sort(
+            (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+          )
+        );
       } catch (err) {
+        router.replace("/login");
+      } finally {
         setIsLoading(false);
-        router.push("/login");
       }
     };
-    fetchUser();
-  }, []);
 
+    fetchTasks();
+  }, [isAddingNew, router]);
+
+  const handleChange = (e) => {
+    setNewTask((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const addNewButtonClick = () => {
+    setIsAddingNew(!isAddingNew);
+  };
+
+  const handleSort = (e) => {
+    setSortOption(e.target.value);
+  };
+
+  const addNewTask = async (e) => {
+    setError(null);
+    e.preventDefault();
+    if (!newTask.category || !newTask.description || !newTask.priority) {
+      setError("All the fields are required");
+      return;
+    }
+    try {
+      const { data } = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/task`,
+        { category, description, priority },
+        { withCredentials: true }
+      );
+      setIsAddingNew(false);
+      setNewTask({ category: "", description: "", priority: 3 });
+      setTaskList([{ ...data?.message }, ...taskList]);
+    } catch (err) {
+      setError(
+        err.response?.data?.error ||
+          "Something went wrong. Please try again later."
+      );
+    }
+  };
+
+  const deleteTask = async (id) => {
+    try {
+      await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/task/${id}`, {
+        withCredentials: true,
+      });
+      setTaskList(taskList.filter((task) => task._id !== id));
+    } catch (err) {
+      setError(
+        err.response?.data?.error ||
+          "Something went wrong. Please try again later."
+      );
+    }
+  };
+
+  const updateTask = (taskId, updatedFields) => {
+    setTaskList((prevTasks) =>
+      prevTasks.map((task) =>
+        task._id === taskId ? { ...task, ...updatedFields } : task
+      )
+    );
+  };
+
+  const filteredTasks = useMemo(() => {
+    return taskList
+      .filter((task) => (showCompleted ? true : !task.completed))
+      .filter((task) =>
+        task.description.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+      .sort((a, b) => {
+        switch (sortOption) {
+          case "priorityAsc":
+            return a.priority - b.priority;
+          case "priorityDesc":
+            return b.priority - a.priority;
+          case "dateAsc":
+            return new Date(a.createdAt) - new Date(b.createdAt);
+          case "dateDesc":
+            return new Date(b.createdAt) - new Date(a.createdAt);
+          default:
+            return 0;
+        }
+      });
+  }, [taskList, showCompleted, searchTerm, sortOption]);
+  console.log("filteredTasks", filteredTasks);
+  console.log("taskList", taskList);
+  if (isLoading) {
+    return null;
+  }
   return (
-    <div>
-      <h1>Tasks</h1>
+    <div className="tasks">
+      <div className="filters">
+        <label>
+          Sort by: {"  "}
+          <select onChange={handleSort}>
+            <option value="priorityDesc">Priority (High to Low)</option>
+            <option value="priorityAsc">Priority (Low to High)</option>
+            <option value="dateDesc">Date Added (Newest First)</option>
+            <option value="dateAsc">Date Added (Oldest First)</option>
+          </select>
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            checked={showCompleted}
+            onChange={() => setShowCompleted((prev) => !prev)}
+          />
+          {"    "}Show completed
+        </label>
+        <label>
+          Search: {"  "}
+          <input
+            type="text"
+            placeholder="Search tasks"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="filter_input"
+          />
+        </label>
+      </div>
+
+      <button type="button" className="addNew" onClick={addNewButtonClick}>
+        {isAddingNew ? "Cancel" : "Add New"}
+      </button>
+      {isAddingNew && (
+        <>
+          <form className="addNewForm" onSubmit={addNewTask}>
+            <input
+              type="text"
+              name="category"
+              value={category}
+              onChange={handleChange}
+              placeholder="Task Category"
+            />
+            <input
+              type="text"
+              name="description"
+              value={description}
+              onChange={handleChange}
+              placeholder="Task name"
+            />
+            <input
+              type="text"
+              name="priority"
+              value={priority}
+              onChange={handleChange}
+              placeholder="Priority"
+            />
+            <button type="submit">Add</button>
+          </form>
+          {error && <div className="error">{error}</div>}
+        </>
+      )}
+      {filteredTasks.length > 0 ? (
+        <table className="taskList_table">
+          <thead>
+            <tr>
+              <th>Done</th>
+              <th>Category</th>
+              <th>Task</th>
+              <th>Priority</th>
+              <th>Added</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredTasks.map((task) => (
+              <TaskItem
+                key={task._id}
+                task={task}
+                deleteTask={deleteTask}
+                updateTask={updateTask}
+              />
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <p className="noTask">No Task Found. Create a new task</p>
+      )}
     </div>
   );
 };
+
 export default Tasks;
