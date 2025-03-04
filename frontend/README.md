@@ -1,40 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# TODO App Frontend Documentation
 
-## Getting Started
+## Project Description
+This project is a frontend for a TODO application built with Next.js. It provides a simple user interface with components to display data from the backend API. Users can register, log in, and manage their tasks. The application is responsive and usable on various screen sizes.
 
-First, run the development server:
+## Pages
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Tasks Page
+- **Path**: `/tasks`
+- **Description**: Displays the list of tasks for the logged-in user. Users can add, delete, and mark tasks as complete or incomplete. Tasks can be filtered, sorted, and searched.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Register Page
+- **Path**: `/register`
+- **Description**: Provides a form for new users to register an account.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+### Login Page
+- **Path**: `/login`
+- **Description**: Provides a form for existing users to log in.
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+### Not Found Page
+- **Path**: `/404`
+- **Description**: Displays a message when the user navigates to a non-existent page.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+### App Component
+- **Path**: `/_app`
+- **Description**: The root component that wraps all pages. It includes global styles and metadata.
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Components
 
-## Learn More
+### Tasks
+- **Path**: `/components/Tasks`
+- **Description**: Fetches and displays the list of tasks. Allows users to add new tasks, filter, sort, and search tasks.
 
-To learn more about Next.js, take a look at the following resources:
+### TaskItem
+- **Path**: `/components/TaskItem`
+- **Description**: Represents a single task item. Allows users to mark tasks as complete or incomplete and delete tasks.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+### Register
+- **Path**: `/components/Register`
+- **Description**: Provides a form for new users to register an account.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Navbar
+- **Path**: `/components/NavBar`
+- **Description**: Displays the navigation bar with links to login, register, or logout.
 
-## Deploy on Vercel
+### Login
+- **Path**: `/components/Login`
+- **Description**: Provides a form for existing users to log in.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Helpers
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+### useVerifyUser
+- **Path**: `/helpers`
+- **Description**: Custom hook to verify if the user is logged in.
+
+## Running the Project
+1. Clone the repository.
+2. Install dependencies using `npm install`.
+3. Create a `.env.local` file with the following environment variables:
+   - `NEXT_PUBLIC_API_URL`: http://localhost:5000/api.
+4. Start the development server using `npm run dev`.
+
+## Docker
+The project can be containerized using Docker. Ensure you have Docker installed and follow the steps below:
+1. Build the Docker image: `docker build -t todo-app-frontend .`
+2. Run the Docker container: `docker run -p 3000:3000 todo-app-frontend`
