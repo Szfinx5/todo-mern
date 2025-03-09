@@ -32,7 +32,11 @@ export const registerUser = async (req, res) => {
     }
 
     const token = generateToken(user);
-    res.cookie("jwt", token, { httpOnly: true, maxAge: MAX_AGE });
+    res.cookie("jwt", token, {
+      httpOnly: true,
+      maxAge: MAX_AGE,
+      sameSite: "none",
+    });
 
     const returnUser = { id: user._id, name: user.name, email: user.email };
     successResponse({ data: returnUser, res });
@@ -62,7 +66,11 @@ export const loginUser = async (req, res) => {
     }
 
     const token = generateToken(user);
-    res.cookie("jwt", token, { httpOnly: true, maxAge: MAX_AGE });
+    res.cookie("jwt", token, {
+      httpOnly: true,
+      maxAge: MAX_AGE,
+      sameSite: "none",
+    });
 
     const returnUser = { id: user._id, name: user.name, email: user.email };
     successResponse({ data: returnUser, res });
