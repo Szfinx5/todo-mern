@@ -26,14 +26,17 @@ const Tasks = () => {
       try {
         const { data } = await axios.get(
           `${process.env.NEXT_PUBLIC_API_URL}/task`,
-          { withCredentials: true }
+          {
+            withCredentials: true,
+            params: {
+              search: searchTerm,
+              sort: sortOption,
+              showCompleted: showCompleted,
+            },
+          }
         );
 
-        setTaskList(
-          data?.message?.sort(
-            (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-          )
-        );
+        setTaskList(data?.message);
       } catch (err) {
         router.replace("/login");
       } finally {
@@ -42,7 +45,7 @@ const Tasks = () => {
     };
 
     fetchTasks();
-  }, [isAddingNew, router]);
+  }, [isAddingNew, router, searchTerm, showCompleted, sortOption]);
 
   const handleChange = (e) => {
     setNewTask((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -102,29 +105,6 @@ const Tasks = () => {
     );
   };
 
-  const filteredTasks = useMemo(() => {
-    return taskList
-      .filter((task) => (showCompleted ? true : !task.completed))
-      .filter((task) =>
-        task.description.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-      .sort((a, b) => {
-        switch (sortOption) {
-          case "priorityAsc":
-            return a.priority - b.priority;
-          case "priorityDesc":
-            return b.priority - a.priority;
-          case "dateAsc":
-            return new Date(a.createdAt) - new Date(b.createdAt);
-          case "dateDesc":
-            return new Date(b.createdAt) - new Date(a.createdAt);
-          default:
-            return 0;
-        }
-      });
-  }, [taskList, showCompleted, searchTerm, sortOption]);
-  console.log("filteredTasks", filteredTasks);
-  console.log("taskList", taskList);
   if (isLoading) {
     return null;
   }
@@ -193,7 +173,7 @@ const Tasks = () => {
           {error && <div className="error">{error}</div>}
         </>
       )}
-      {filteredTasks.length > 0 ? (
+      {taskList.length > 0 ? (
         <table className="taskList_table">
           <thead>
             <tr>
@@ -205,7 +185,7 @@ const Tasks = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredTasks.map((task) => (
+            {taskList.map((task) => (
               <TaskItem
                 key={task._id}
                 task={task}

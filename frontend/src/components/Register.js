@@ -50,9 +50,10 @@ const Register = () => {
           { name, email, password },
           { withCredentials: true }
         );
-        router.push("/tasks"); // Redirect on success
+        router.push("/tasks");
       } catch (err) {
-        setError("Something went wrong. Please try again later.");
+        console.log(err);
+        setError(err.response?.data?.error || "Something went wrong");
       } finally {
         setIsLoading(false);
       }

@@ -4,8 +4,34 @@ import Task from "../models/task.js";
 
 /* Fetching all the tasks belongs to the logged in user */
 export const getTasks = async (req, res) => {
-  const tasks = await Task.find({ userId: req.userId });
-  successResponse({ data: tasks, res });
+  try {
+    const { search, sort, showCompleted } = req.query;
+    let query = {};
+
+    // Filtering by completed status
+    if (showCompleted === "false") {
+      query.completed = false;
+    }
+
+    // Searching by task description
+    if (search) {
+      query.description = { $regex: search, $options: "i" };
+    }
+
+    // Sorting options
+    let sortOption = {};
+    if (sort === "priorityAsc") sortOption.priority = 1;
+    else if (sort === "priorityDesc") sortOption.priority = -1;
+    else if (sort === "dateAsc") sortOption.createdAt = 1;
+    else if (sort === "dateDesc") sortOption.createdAt = -1;
+
+    const tasks = await Task.find(query).sort(sortOption);
+
+    successResponse({ data: tasks, res });
+  } catch (error) {
+    logger.error(error);
+    errorResponse({ code: 404, error, res });
+  }
 };
 
 /* Adding a new task for the logged in user */
