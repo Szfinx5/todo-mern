@@ -36,6 +36,7 @@ export const registerUser = async (req, res) => {
       httpOnly: true,
       maxAge: MAX_AGE,
       sameSite: "none",
+      secure: true,
     });
 
     const returnUser = { id: user._id, name: user.name, email: user.email };
@@ -70,6 +71,7 @@ export const loginUser = async (req, res) => {
       httpOnly: true,
       maxAge: MAX_AGE,
       sameSite: "none",
+      secure: true,
     });
 
     const returnUser = { id: user._id, name: user.name, email: user.email };
