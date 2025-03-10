@@ -2,8 +2,11 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import TaskItem from "./TaskItem";
+import { useVerifyUser } from "@/helpers";
 
 const Tasks = ({ tasks }) => {
+  // useVerifyUser();
+
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [taskList, setTaskList] = useState((tasks = []));

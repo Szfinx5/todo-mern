@@ -75,6 +75,7 @@ export const loginUser = async (req, res) => {
     });
 
     const returnUser = { id: user._id, name: user.name, email: user.email };
+    logger.info(`${returnUser.name} logged in with token ${token}`);
     successResponse({ data: returnUser, res });
   } catch (error) {
     logger.error(error);

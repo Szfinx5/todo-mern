@@ -25,6 +25,8 @@ export async function getServerSideProps(context) {
         }
       );
 
+      console.log("User is authenticated:", data);
+
       return {
         redirect: {
           destination: "/tasks",
@@ -33,9 +35,7 @@ export async function getServerSideProps(context) {
       };
     }
   } catch (error) {
-    return {
-      props: {},
-    };
+    console.log("User not authenticated:", error.message);
   }
 
   return {

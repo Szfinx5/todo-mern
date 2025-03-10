@@ -14,16 +14,18 @@ const TasksPage = ({ tasks }) => {
 export async function getServerSideProps(context) {
   try {
     const { req } = context;
+    console.log("Incoming headers in getServerSideProps:", context.req.headers);
     const cookies = req.headers.cookie;
+    console.log(cookies);
 
-    if (!cookies) {
-      return {
-        redirect: {
-          destination: "/login",
-          permanent: false,
-        },
-      };
-    }
+    // if (!cookies) {
+    //   return {
+    //     redirect: {
+    //       destination: "/login",
+    //       permanent: false,
+    //     },
+    //   };
+    // }
 
     const { data } = await axios.get(
       `${process.env.NEXT_PUBLIC_API_URL}/user/me`,
@@ -32,7 +34,7 @@ export async function getServerSideProps(context) {
         withCredentials: true,
       }
     );
-
+    console.log(data);
     const taskResponse = await axios.get(
       `${process.env.NEXT_PUBLIC_API_URL}/task`,
       {
@@ -47,6 +49,7 @@ export async function getServerSideProps(context) {
       },
     };
   } catch (error) {
+    console.log(error.response);
     return {
       redirect: {
         destination: "/login",

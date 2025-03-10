@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 import { useState, useCallback } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import axios from "axios";
 import Link from "next/link";
 
