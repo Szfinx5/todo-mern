@@ -52,7 +52,6 @@ const Register = () => {
         );
         router.push("/tasks");
       } catch (err) {
-        console.log(err);
         setError(err.response?.data?.error || "Something went wrong");
       } finally {
         setIsLoading(false);

@@ -1,12 +1,12 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import TaskItem from "./TaskItem";
 
-const Tasks = () => {
+const Tasks = ({ tasks }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
-  const [taskList, setTaskList] = useState([]);
+  const [taskList, setTaskList] = useState((tasks = []));
   const [isAddingNew, setIsAddingNew] = useState(false);
   const [showCompleted, setShowCompleted] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -17,8 +17,8 @@ const Tasks = () => {
     description: "",
     priority: 3,
   });
-  const { category, description, priority } = newTask;
 
+  const { category, description, priority } = newTask;
   useEffect(() => {
     if (!router.isReady) return;
 

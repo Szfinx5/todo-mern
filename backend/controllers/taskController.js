@@ -6,7 +6,7 @@ import Task from "../models/task.js";
 export const getTasks = async (req, res) => {
   try {
     const { search, sort, showCompleted } = req.query;
-    let query = {};
+    let query = { userId: req.userId };
 
     // Filtering by completed status
     if (showCompleted === "false") {
