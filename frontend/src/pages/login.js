@@ -17,15 +17,10 @@ export async function getServerSideProps(context) {
     const cookies = req.headers.cookie || "";
 
     if (cookies) {
-      const { data } = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/user/me`,
-        {
-          headers: { Cookie: cookies },
-          withCredentials: true,
-        }
-      );
-
-      console.log("User is authenticated:", data);
+      const { data } = await axios.get(`${process.env.BACKEND_URL}/user/me`, {
+        headers: { Cookie: cookies },
+        withCredentials: true,
+      });
 
       return {
         redirect: {
@@ -35,7 +30,9 @@ export async function getServerSideProps(context) {
       };
     }
   } catch (error) {
-    console.log("User not authenticated:", error.message);
+    return {
+      props: {},
+    };
   }
 
   return {

@@ -16,13 +16,10 @@ export async function getServerSideProps(context) {
       };
     }
 
-    const { data } = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_URL}/user/me`,
-      {
-        headers: { Cookie: cookies },
-        withCredentials: true,
-      }
-    );
+    const { data } = await axios.get(`${process.env.BACKEND_URL}/user/me`, {
+      headers: { Cookie: cookies },
+      withCredentials: true,
+    });
 
     return {
       redirect: {
