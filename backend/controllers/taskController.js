@@ -26,7 +26,7 @@ export const getTasks = async (req, res) => {
     else if (sort === "dateDesc") sortOption.createdAt = -1;
 
     const tasks = await Task.find(query).sort(sortOption);
-
+    logger.info(`Successfully fetched tasks for user ${req.userId}`);
     successResponse({ data: tasks, res });
   } catch (error) {
     logger.error(error);
@@ -42,6 +42,7 @@ export const addTask = async (req, res) => {
     }
     const task = new Task({ ...req.body, userId: req.userId });
     await task.save();
+    logger.info(`Task added for user ${req.userId}`);
     successResponse({ data: task, res });
   } catch (error) {
     logger.error(error);
@@ -66,6 +67,7 @@ export const editTask = async (req, res) => {
     if (!task) {
       throw new Error("Task not found");
     }
+    logger.info(`Task edited for user ${req.userId}`);
     successResponse({ data: task, res });
   } catch (error) {
     logger.error(error);
@@ -84,6 +86,7 @@ export const deleteTask = async (req, res) => {
     if (!task) {
       throw new Error("Task not found");
     }
+    logger.info(`Task deleted for user ${req.userId}`);
     successResponse({ data: task, res });
   } catch (error) {
     logger.error(error);

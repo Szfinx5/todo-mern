@@ -19,6 +19,7 @@ export const auth = async (req, res, next) => {
     }
 
     req.userId = decodedToken.userId;
+    logger.info("User authenticated");
     next();
   } catch (error) {
     logger.error(error);

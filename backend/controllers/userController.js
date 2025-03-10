@@ -96,6 +96,7 @@ export const logoutUser = async (req, res) => {
 export const verifyUser = async (req, res) => {
   try {
     const { _id, name, email } = await User.findById(req.userId);
+    logger.info(`${name} verified`);
     successResponse({ data: { _id, name, email }, res });
   } catch (error) {
     logger.error(error);
