@@ -5,8 +5,6 @@ import TaskItem from "./TaskItem";
 import { useVerifyUser } from "@/helpers";
 
 const Tasks = ({ tasks }) => {
-  // useVerifyUser();
-
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [taskList, setTaskList] = useState((tasks = []));
@@ -164,13 +162,16 @@ const Tasks = ({ tasks }) => {
               onChange={handleChange}
               placeholder="Task name"
             />
-            <input
-              type="text"
+            <select
               name="priority"
               value={priority}
               onChange={handleChange}
-              placeholder="Priority"
-            />
+              required
+            >
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+            </select>
             <button type="submit">Add</button>
           </form>
           {error && <div className="error">{error}</div>}

@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { logger } from "./helpers.js";
 
+/* Connect to MongoDB */
 export const connectDB = async () => {
   try {
     const conn = await mongoose.connect(process.env.MONGODB_URI, {

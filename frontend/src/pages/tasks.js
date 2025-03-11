@@ -25,12 +25,12 @@ export async function getServerSideProps(context) {
       };
     }
 
-    const { data } = await axios.get(`${process.env.BACKEND_URL}/user/me`, {
-      headers: { Cookie: cookies },
-      withCredentials: true,
-    });
+    const URL =
+      process.env.NEXT_PUBLIC_ENV === "dev"
+        ? process.env.NEXT_PUBLIC_API_URL
+        : process.env.BACKEND_URL;
 
-    const taskResponse = await axios.get(`${process.env.BACKEND_URL}/task`, {
+    const taskResponse = await axios.get(`${URL}/task`, {
       headers: { Cookie: cookies },
       withCredentials: true,
     });

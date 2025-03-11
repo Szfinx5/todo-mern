@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 
 export const MAX_AGE = 60 * 60 * 1000; // 1 hour
 
+/* Check if an object is empty */
 export const isEmpty = (objectName) => {
   return (
     objectName &&
@@ -11,8 +12,10 @@ export const isEmpty = (objectName) => {
   );
 };
 
+/* Logger instance */
 export const logger = bunyan.createLogger({ name: "todo-app" });
 
+/* Format request body */
 export const formatBody = (body) => {
   const email = body?.email?.trim()?.toLowerCase();
   const password = body?.password?.trim();
@@ -20,6 +23,7 @@ export const formatBody = (body) => {
   return { email, password, name };
 };
 
+/* Generate JWT token */
 export const generateToken = (user) => {
   return jwt.sign(
     { userId: user._id, name: user.name },

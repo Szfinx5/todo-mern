@@ -1,5 +1,4 @@
 name: todo-mern
-version: "3.8"
 
 services:
   mongo:
@@ -28,11 +27,13 @@ services:
       args:
         - NEXT_PUBLIC_API_URL=http://localhost:5000/api
         - BACKEND_URL=http://backend:5000/api
+        - NEXT_PUBLIC_ENV=stg
     ports:
       - "3000:3000"
     environment:
       - NEXT_PUBLIC_API_URL=http://localhost:5000/api
       - BACKEND_URL=http://backend:5000/api
+      - NEXT_PUBLIC_ENV=stg
     volumes:
       - /app/node_modules
     depends_on:

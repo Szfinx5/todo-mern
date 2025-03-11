@@ -2,9 +2,9 @@ import jwt from "jsonwebtoken";
 import { logger } from "../utils/helpers.js";
 import { errorResponse } from "../utils/response.js";
 
-/*  Middleware to authenticate the user based on a httponly cookie. 
-    If the authentication is successful, 
-    the userId will be added to the res object for further use. */
+/* Middleware to authenticate the user based on a httponly cookie. 
+   If the authentication is successful, 
+   the userId will be added to the req object for further use. */
 export const auth = async (req, res, next) => {
   try {
     if (!req?.cookies?.jwt) {

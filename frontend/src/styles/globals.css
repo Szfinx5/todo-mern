@@ -17,12 +17,16 @@
   max-width: 750px;
   margin: 0 auto 40px;
   border-bottom: 1px solid #f2f2f2;
+  flex-wrap: wrap;
 }
 .navbar h1 {
   color: var(--primary);
+  flex: 1;
 }
 .navbar .links {
   margin-left: auto;
+  flex: 1;
+  text-align: right;
 }
 .navbar a {
   margin-left: 16px;
@@ -173,7 +177,8 @@ div .error {
   width: 100%;
   display: flex;
   gap: 1rem;
-  input {
+  input,
+  select {
     width: 100%;
     padding: 0.5rem;
     border: none;
@@ -275,4 +280,38 @@ div .error {
   gap: 1.5rem;
   margin: 1rem 0;
   font-size: 1.1rem;
+}
+
+/* Responsive styles */
+@media (max-width: 600px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .navbar .links {
+    text-align: left;
+    margin-top: 10px;
+  }
+  .content {
+    padding: 10px;
+  }
+  .tasks-image img {
+    width: 100%;
+  }
+  .register,
+  .login {
+    width: 90%;
+  }
+  .tasks {
+    width: 90%;
+  }
+  .task_name p {
+    width: 100%;
+  }
+  .filters,
+  .addNewForm {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 90%;
+  }
 }

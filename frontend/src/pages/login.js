@@ -16,8 +16,13 @@ export async function getServerSideProps(context) {
     const { req } = context;
     const cookies = req.headers.cookie || "";
 
+    const URL =
+      process.env.NEXT_PUBLIC_ENV === "dev"
+        ? process.env.NEXT_PUBLIC_API_URL
+        : process.env.BACKEND_URL;
+
     if (cookies) {
-      const { data } = await axios.get(`${process.env.BACKEND_URL}/user/me`, {
+      const { data } = await axios.get(`${URL}/user/me`, {
         headers: { Cookie: cookies },
         withCredentials: true,
       });

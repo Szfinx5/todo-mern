@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 
+/*  This hook is not used anymore.
+    The API calls are made from getServerSideProps functions */
 export const useVerifyUser = () => {
   const router = useRouter();
 
@@ -19,5 +21,5 @@ export const useVerifyUser = () => {
     };
 
     fetchUser();
-  }, []);
+  }, [router]);
 };

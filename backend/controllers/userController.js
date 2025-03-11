@@ -53,7 +53,7 @@ export const loginUser = async (req, res) => {
     const { email, password } = formatBody(req.body);
 
     if (!email || !password) {
-      throw new Error("Email, name and password are required");
+      throw new Error("Email and password are required");
     }
 
     const user = await User.findOne({ email });
@@ -83,6 +83,7 @@ export const loginUser = async (req, res) => {
   }
 };
 
+/* Logging out the current user */
 export const logoutUser = async (req, res) => {
   try {
     res.cookie("jwt", "", { maxAge: 0, sameSite: "none", secure: true });
